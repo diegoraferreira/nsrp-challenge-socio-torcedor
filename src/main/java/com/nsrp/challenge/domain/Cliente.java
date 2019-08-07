@@ -12,6 +12,8 @@ public class Cliente {
 
     private Long id;
 
+    private String nomeCompleto;
+
     private String email;
 
     private LocalDate dataNascimento;
@@ -29,6 +31,15 @@ public class Cliente {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Column(name = "NOME_COMPLETO")
+    public String getNomeCompleto() {
+        return nomeCompleto;
+    }
+
+    public void setNomeCompleto(String nomeCompleto) {
+        this.nomeCompleto = nomeCompleto;
     }
 
     @Column(name = "EMAIL", nullable = false, length = 100)
