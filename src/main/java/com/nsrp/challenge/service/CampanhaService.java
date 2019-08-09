@@ -17,12 +17,12 @@ public class CampanhaService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("nsrp.challange.campanha.url")
-    private String serviceUrl;
+    @Value("nsrp.challenge.campanha.campanha.url")
+    private String url;
 
     public List<CampanhaModel> findCampanhasByTimeDoCoracao(Long idTime) {
         final ResponseEntity<List<CampanhaModel>> response = restTemplate.exchange(
-                serviceUrl,
+                url,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<CampanhaModel>>() {

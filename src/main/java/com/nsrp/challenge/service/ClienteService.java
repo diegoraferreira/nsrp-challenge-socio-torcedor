@@ -18,12 +18,17 @@ public class ClienteService {
     @Autowired
     private CampanhaService campanhaService;
 
+    @Autowired
+    private AssociacaoClienteCampanhaProducer producer;
+
     public void save(ClienteModel clienteModel) {
         Cliente cliente = new Cliente();
         cliente.setNomeCompleto(clienteModel.getNomeCompleto());
         cliente.setEmail(clienteModel.getEmail());
         cliente.setDataNascimento(clienteModel.getDataNascimento());
-        cliente.setTimeDoCoracao(timeService.findOrCreateTimeDoCoracao(clienteModel.getTimeDoCoracao()));
+        cliente.setTimeDoCoracaoId(timeService.findByNome(clienteModel.getTimeDoCoracao()).getId());
+
         repository.save(cliente);
+        producer.sendMenssage(clienteModel);
     }
 }

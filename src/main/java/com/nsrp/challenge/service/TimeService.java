@@ -1,37 +1,39 @@
 package com.nsrp.challenge.service;
 
-import com.nsrp.challenge.domain.Time;
-import com.nsrp.challenge.repository.TimeRepository;
+import com.nsrp.challenge.model.TimeModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 @Component
 public class TimeService {
 
     @Autowired
-    private TimeRepository timeRepository;
+    private RestTemplate restTemplate;
 
-    @Transactional
-    public Time save(String time) {
-        Time timeDoCoracao = new Time(time);
-        return this.timeRepository.save(timeDoCoracao);
-    }
+    @Value("${nsrp.challenge.campanha.url}")
+    private String baseUrl;
+
+    @Value("${nsrp.challenge.campanha.time.list.url}")
+    private String listTimeUrl;
 
     @Transactional(readOnly = true)
-    public Optional<Time> findByNome(String nome) {
-        return this.timeRepository.findByNome(nome);
-    }
-
-    @Transactional
-    public Time findOrCreateTimeDoCoracao(String timeDoCoracao) {
-        Optional<Time> timeDoCoracaoOptional = timeRepository.findByNome(timeDoCoracao);
-        if (timeDoCoracaoOptional.isPresent()) {
-            return timeDoCoracaoOptional.get();
-        } else {
-            return this.save(timeDoCoracao);
+    public TimeModel findByNome(String nome) {
+        try {
+            ResponseEntity<TimeModel> response = restTemplate.getForEntity(baseUrl.concat(listTimeUrl), TimeModel.class, nome);
+            return response.getBody();
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode().value() == HttpStatus.NOT_FOUND.value()) {
+                String message = "O time com nome '%s' não foi encontrado";
+                throw new RuntimeException(String.format(message, nome), e);
+            } else {
+                throw e;
+            }
         }
     }
 }

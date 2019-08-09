@@ -18,9 +18,9 @@ public class Cliente {
 
     private LocalDate dataNascimento;
 
-    private Time timeDoCoracao;
+    private Long timeDoCoracaoId;
 
-    private List<Campanha> campanhas = new ArrayList<>();
+    private List<Long> campanhas = new ArrayList<>();
 
     @Id
     @GeneratedValue(generator = "SEQ_CLIENTE", strategy = GenerationType.SEQUENCE)
@@ -60,25 +60,22 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_TIME", nullable = false, foreignKey = @ForeignKey(name = "FK_TIME_CLIENTE"))
-    public Time getTimeDoCoracao() {
-        return timeDoCoracao;
+    @Column(name = "ID_TIME", nullable = false)
+    public Long getTimeDoCoracaoId() {
+        return timeDoCoracaoId;
     }
 
-    public void setTimeDoCoracao(Time timeDoCoracao) {
-        this.timeDoCoracao = timeDoCoracao;
+    public void setTimeDoCoracaoId(Long timeDoCoracaoId) {
+        this.timeDoCoracaoId = timeDoCoracaoId;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "CLIENTE_CAMPANHA",
-            joinColumns = @JoinColumn(name = "ID_CLIENTE", nullable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "ID_CAMPANHA", nullable = false, updatable = false))
-    public List<Campanha> getCampanhas() {
+    @ElementCollection
+    @CollectionTable(name = "CLIENTE_CAMPANHA", joinColumns = @JoinColumn(name = "ID_CLIENTE", nullable = false))
+    public List<Long> getCampanhas() {
         return campanhas;
     }
 
-    public void setCampanhas(List<Campanha> campanhas) {
+    public void setCampanhas(List<Long> campanhas) {
         this.campanhas = campanhas;
     }
 }
