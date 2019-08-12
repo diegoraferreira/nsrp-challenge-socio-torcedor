@@ -6,13 +6,17 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AssociacaoClienteCampanhaConsumer {
+public class CreateClienteConsumer {
 
     @Autowired
     private AssociacaoClienteCampanhaService service;
 
-    @JmsListener(destination = "${nsrp.associacao.cliente.campanha.queue.name}", containerFactory = "myFactory")
+    @Autowired
+    private ClienteService clienteService;
+
+    @JmsListener(destination = "${nsrp.cliente.campanha.create.queue.name}", containerFactory = "myFactory")
     public void receiveMessage(ClienteModel clienteModel) {
+        this.clienteService.finalizarCadastroDoCliente(clienteModel);
         this.service.associarClienteCampanha(clienteModel);
     }
 }

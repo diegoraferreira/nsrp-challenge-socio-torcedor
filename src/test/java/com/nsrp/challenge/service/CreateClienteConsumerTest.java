@@ -9,18 +9,22 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AssociacaoClienteCampanhaConsumerTest {
+public class CreateClienteConsumerTest {
 
     @Mock
     private AssociacaoClienteCampanhaService service;
 
+    @Mock
+    private ClienteService clienteService;
+
     @InjectMocks
-    private AssociacaoClienteCampanhaConsumer consumer;
+    private CreateClienteConsumer consumer;
 
     @Test
     public void receiveMessage() {
         ClienteModel clienteModel = Mockito.any(ClienteModel.class);
         consumer.receiveMessage(clienteModel);
+        Mockito.verify(clienteService, Mockito.times(1)).finalizarCadastroDoCliente(clienteModel);
         Mockito.verify(service, Mockito.times(1)).associarClienteCampanha(clienteModel);
     }
 }

@@ -28,7 +28,6 @@ public class AssociacaoClienteCampanhaServiceTest {
     @Test
     public void associarClienteCampanhaNovoCliente() {
         ClienteModel clienteModel = Mockito.spy(ClienteModel.class);
-        Mockito.when(clienteModel.getId()).thenReturn(null);
         CampanhaModel campanhaModel = Mockito.mock(CampanhaModel.class);
         Long campanhaId = 1L;
         Mockito.when(campanhaModel.getId()).thenReturn(campanhaId);

@@ -12,7 +12,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AssociacaoClienteCampanhaProducerTest {
+public class ClienteProducerTest {
 
     private static final String QUEUE_NAME = "queueTest";
 
@@ -20,17 +20,12 @@ public class AssociacaoClienteCampanhaProducerTest {
     private JmsTemplate jmsTemplate;
 
     @InjectMocks
-    private AssociacaoClienteCampanhaProducer producer;
-
-    @Before
-    public void init() {
-        ReflectionTestUtils.setField(producer, "queueName", QUEUE_NAME);
-    }
+    private ClienteProducer producer;
 
     @Test
     public void sendMenssage() {
         ClienteModel cliente = Mockito.mock(ClienteModel.class);
-        producer.sendMenssage(cliente);
+        producer.sendMenssage(QUEUE_NAME, cliente);
         Mockito.verify(jmsTemplate, Mockito.times(1)).convertAndSend(QUEUE_NAME, cliente);
     }
 }

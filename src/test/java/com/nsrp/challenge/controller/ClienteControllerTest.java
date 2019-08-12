@@ -55,23 +55,4 @@ public class ClienteControllerTest {
 
         resultActions.andExpect(status().isCreated());
     }
-
-    @Test
-    public void createClienteExistente() throws Exception {
-        String json = "{\"nomeCompleto\":\"Cliente 1\", " +
-                "\"email\":\"cliente1@gmail.com\", " +
-                "\"dataNascimento\":\"1980-08-01\", " +
-                "\"timeDoCoracao\": \"Time do coração\"}";
-
-        ClienteModel clienteModel = new ClienteModel();
-        clienteModel.setCampanhas(Collections.singletonList(1L));
-        Mockito.when(clienteService.findByEmail(Mockito.anyString())).thenReturn(Optional.of(clienteModel));
-
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/cliente")
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
-
-        resultActions.andExpect(status().isOk());
-    }
 }

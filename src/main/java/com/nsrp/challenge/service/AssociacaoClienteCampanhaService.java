@@ -18,14 +18,10 @@ public class AssociacaoClienteCampanhaService {
     private ClienteService clienteService;
 
     public void associarClienteCampanha(ClienteModel clienteModel) {
-        if (clienteModel.getId() == null) {
-            List<CampanhaModel> campanhasAtivas = campanhaService.findCampanhasByTimeDoCoracao(clienteModel.getTimeDoCoracao());
-            if (!campanhasAtivas.isEmpty()) {
-                clienteModel.setCampanhas(campanhasAtivas.stream().map(c -> c.getId()).collect(Collectors.toList()));
-                clienteService.atualizarCampanhasTimeDoCoracao(clienteModel);
-            }
-        } else {
-
+        List<CampanhaModel> campanhasAtivas = campanhaService.findCampanhasByTimeDoCoracao(clienteModel.getTimeDoCoracao());
+        if (!campanhasAtivas.isEmpty()) {
+            clienteModel.setCampanhas(campanhasAtivas.stream().map(c -> c.getId()).collect(Collectors.toList()));
+            clienteService.atualizarCampanhasTimeDoCoracao(clienteModel);
         }
     }
 }

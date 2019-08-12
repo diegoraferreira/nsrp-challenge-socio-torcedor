@@ -60,7 +60,7 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
     }
 
-    @Column(name = "ID_TIME", nullable = false)
+    @Column(name = "ID_TIME")
     public Long getTimeDoCoracaoId() {
         return timeDoCoracaoId;
     }
