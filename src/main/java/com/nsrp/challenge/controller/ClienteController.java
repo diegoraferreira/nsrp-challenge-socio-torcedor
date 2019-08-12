@@ -41,12 +41,14 @@ public class ClienteController {
         Optional<ClienteModel> clienteOptional = this.clienteService.findByEmail(clienteModel.getEmail());
         if (!clienteOptional.isPresent()) {
             this.clienteService.save(clienteModel);
+            this.clienteService.associarCampanhasTimeDoCoracao(clienteModel);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
             if (clienteOptional.get().getCampanhas().isEmpty()) {
                 List<CampanhaModel> campanhas = campanhaService.findCampanhasByTimeDoCoracao(clienteModel.getTimeDoCoracao());
                 return ResponseEntity.status(HttpStatus.OK).body(campanhas);
             } else {
+                this.clienteService.associarCampanhasTimeDoCoracao(clienteModel);
                 return ResponseEntity.status(HttpStatus.OK).build();
             }
         }

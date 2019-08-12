@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AssociacaoClienteCampanhaProducer {
 
-    @Value("nsrp.associacao.cliente.campanha.queue.name")
+    @Value("${nsrp.associacao.cliente.campanha.queue.name}")
     private String queueName;
 
     @Autowired
