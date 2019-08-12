@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 @ApiModel(description = "Cliente")
 public class ClienteModel {
@@ -22,6 +23,25 @@ public class ClienteModel {
 
     @ApiModelProperty(value = "Time do coração")
     private String timeDoCoracao;
+
+    @ApiModelProperty(value = "Código Time do coração")
+    private Long timeDoCoracaoId;
+
+    @ApiModelProperty(value = "Código das campanhas associadas ao cliente")
+    private Collection<Long> campanhas;
+
+    public ClienteModel() {
+        super();
+    }
+
+    public ClienteModel(Long id, String nomeCompleto, String email, LocalDate dataNascimento, Long timeDoCoracaoId, Collection<Long> campanhas) {
+        this.id = id;
+        this.nomeCompleto = nomeCompleto;
+        this.email = email;
+        this.dataNascimento = dataNascimento;
+        this.timeDoCoracaoId = timeDoCoracaoId;
+        this.campanhas = campanhas;
+    }
 
     public Long getId() {
         return id;
@@ -61,5 +81,21 @@ public class ClienteModel {
 
     public void setTimeDoCoracao(String timeDoCoracao) {
         this.timeDoCoracao = timeDoCoracao;
+    }
+
+    public Long getTimeDoCoracaoId() {
+        return timeDoCoracaoId;
+    }
+
+    public void setTimeDoCoracaoId(Long timeDoCoracaoId) {
+        this.timeDoCoracaoId = timeDoCoracaoId;
+    }
+
+    public Collection<Long> getCampanhas() {
+        return campanhas;
+    }
+
+    public void setCampanhas(Collection<Long> campanhas) {
+        this.campanhas = campanhas;
     }
 }

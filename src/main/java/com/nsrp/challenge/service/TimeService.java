@@ -19,7 +19,7 @@ public class TimeService {
     @Value("${nsrp.challenge.campanha.url}")
     private String baseUrl;
 
-    @Value("${nsrp.challenge.campanha.time.list.url}")
+    @Value("${nsrp.challenge.campanha.time.list}")
     private String listTimeUrl;
 
     @Transactional(readOnly = true)

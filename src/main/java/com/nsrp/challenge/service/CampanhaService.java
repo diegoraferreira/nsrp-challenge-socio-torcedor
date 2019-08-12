@@ -8,8 +8,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CampanhaService {
@@ -17,12 +20,18 @@ public class CampanhaService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("nsrp.challenge.campanha.campanha.url")
-    private String url;
+    @Value("${nsrp.challenge.campanha.url}")
+    private String baseUrl;
 
-    public List<CampanhaModel> findCampanhasByTimeDoCoracao(Long idTime) {
+    @Value("${nsrp.challenge.campanha.timedocoracao}")
+    private String campanhaUrl;
+
+    public List<CampanhaModel> findCampanhasByTimeDoCoracao(String timeDoCoracao) {
+        Map<String, String> uriParams = new HashMap<String, String>();
+        uriParams.put("timeDoCoracao", timeDoCoracao);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(baseUrl.concat(campanhaUrl));
         final ResponseEntity<List<CampanhaModel>> response = restTemplate.exchange(
-                url,
+                builder.buildAndExpand(uriParams).toUri(),
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<CampanhaModel>>() {

@@ -15,5 +15,6 @@ public class AssociacaoClienteCampanhaConsumer {
 
     @JmsListener(destination = QUEUE_NAME, containerFactory = "myFactory")
     public void receiveMessage(ClienteModel clienteModel) {
+        System.out.println("bla");
     }
 }
