@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    @Query("SELECT c FROM Cliente c WHERE UPPER(c.email) = UPPER(:email)")
+    @Query("SELECT c FROM Cliente c LEFT JOIN FETCH c.campanhas WHERE UPPER(c.email) = UPPER(:email)")
     Optional<Cliente> findByEmail(@Param("email") String email);
 }

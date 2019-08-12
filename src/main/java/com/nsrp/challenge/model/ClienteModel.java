@@ -1,6 +1,5 @@
 package com.nsrp.challenge.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -9,7 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDate;
-import java.util.Collection;
+import java.util.List;
 
 @ApiModel(description = "Cliente")
 public class ClienteModel {
@@ -35,13 +34,13 @@ public class ClienteModel {
     private Long timeDoCoracaoId;
 
     @ApiModelProperty(value = "Código das campanhas associadas ao cliente")
-    private Collection<Long> campanhas;
+    private List<Long> campanhas;
 
     public ClienteModel() {
         super();
     }
 
-    public ClienteModel(Long id, String nomeCompleto, String email, LocalDate dataNascimento, Long timeDoCoracaoId, Collection<Long> campanhas) {
+    public ClienteModel(Long id, String nomeCompleto, String email, LocalDate dataNascimento, Long timeDoCoracaoId, List<Long> campanhas) {
         this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.email = email;
@@ -98,11 +97,11 @@ public class ClienteModel {
         this.timeDoCoracaoId = timeDoCoracaoId;
     }
 
-    public Collection<Long> getCampanhas() {
+    public List<Long> getCampanhas() {
         return campanhas;
     }
 
-    public void setCampanhas(Collection<Long> campanhas) {
+    public void setCampanhas(List<Long> campanhas) {
         this.campanhas = campanhas;
     }
 }
