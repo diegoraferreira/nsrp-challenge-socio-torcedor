@@ -17,10 +17,23 @@ public class AssociacaoClienteCampanhaService {
     @Autowired
     private ClienteService clienteService;
 
-    public void associarClienteCampanha(ClienteModel clienteModel) {
+    public void associarCadastroClienteCampanha(ClienteModel clienteModel) {
         List<CampanhaModel> campanhasAtivas = campanhaService.findCampanhasByTimeDoCoracao(clienteModel.getTimeDoCoracao());
         if (!campanhasAtivas.isEmpty()) {
             clienteModel.setCampanhas(campanhasAtivas.stream().map(c -> c.getId()).collect(Collectors.toList()));
+            clienteService.atualizarCampanhasTimeDoCoracao(clienteModel);
+        }
+    }
+
+    public void associarAtualizacaoClienteCampanha(ClienteModel clienteModel) {
+        List<CampanhaModel> campanhasAtivas = campanhaService.findCampanhasByTimeDoCoracao(clienteModel.getTimeDoCoracao());
+        if (!campanhasAtivas.isEmpty()) {
+            List<Long> campanhasDisponiveis = campanhasAtivas.stream().map(c -> c.getId()).collect(Collectors.toList());
+            for (Long campanhaId : campanhasDisponiveis) {
+                if (!clienteModel.getCampanhas().contains(campanhaId)) {
+                    clienteModel.getCampanhas().add(campanhaId);
+                }
+            }
             clienteService.atualizarCampanhasTimeDoCoracao(clienteModel);
         }
     }

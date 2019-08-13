@@ -11,14 +11,13 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @Api(tags = "API para cadastro de cliente", value = "Disponibiliza acesso para cadastro do cliente.")
-@RestController("/cliente")
+@RestController
+@RequestMapping("/cliente")
 public class ClienteController {
 
     @Autowired
@@ -29,12 +28,35 @@ public class ClienteController {
 
     @ApiOperation(value = "Cadastro de cliente")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Cliente cadastrada com sucesso"),
+            @ApiResponse(code = 201, message = "Cliente cadastrado com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno do servidor ao cadastrar o cliente", response = ApiError.class),
     })
     @PostMapping(produces = APPLICATION_JSON_UTF8_VALUE, consumes = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ClienteModel> create(@RequestBody ClienteModel clienteModel) {
         ClienteModel clienteSalvo = this.clienteService.save(clienteModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
+    }
+
+    @ApiOperation(value = "Atualização de cliente")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Cliente atualizado com sucesso"),
+            @ApiResponse(code = 500, message = "Erro interno do servidor ao atualizar o cliente", response = ApiError.class),
+    })
+    @PutMapping(produces = APPLICATION_JSON_UTF8_VALUE, consumes = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<ClienteModel> update(@RequestBody ClienteModel clienteModel) {
+        ClienteModel clienteSalvo = this.clienteService.update(clienteModel);
+        return ResponseEntity.status(HttpStatus.OK).body(clienteSalvo);
+    }
+
+    @ApiOperation(value = "Busca de cliente")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Cliente encontrado com sucesso"),
+            @ApiResponse(code = 404, message = "Cliente não encontrado", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro interno do servidor ao buscar o cliente", response = ApiError.class),
+    })
+    @GetMapping(value = "/list/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<ClienteModel> findByClienteId(@PathVariable("id") Long id) {
+        ClienteModel clientModel = this.clienteService.findByClienteId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(clientModel);
     }
 }

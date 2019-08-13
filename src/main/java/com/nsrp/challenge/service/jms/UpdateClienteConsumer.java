@@ -1,12 +1,14 @@
-package com.nsrp.challenge.service;
+package com.nsrp.challenge.service.jms;
 
 import com.nsrp.challenge.model.ClienteModel;
+import com.nsrp.challenge.service.AssociacaoClienteCampanhaService;
+import com.nsrp.challenge.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreateClienteConsumer {
+public class UpdateClienteConsumer {
 
     @Autowired
     private AssociacaoClienteCampanhaService service;
@@ -14,9 +16,9 @@ public class CreateClienteConsumer {
     @Autowired
     private ClienteService clienteService;
 
-    @JmsListener(destination = "${nsrp.cliente.campanha.create.queue.name}", containerFactory = "myFactory")
+    @JmsListener(destination = "${nsrp.cliente.campanha.update.queue.name}", containerFactory = "myFactory")
     public void receiveMessage(ClienteModel clienteModel) {
         this.clienteService.finalizarCadastroDoCliente(clienteModel);
-        this.service.associarClienteCampanha(clienteModel);
+        this.service.associarAtualizacaoClienteCampanha(clienteModel);
     }
 }

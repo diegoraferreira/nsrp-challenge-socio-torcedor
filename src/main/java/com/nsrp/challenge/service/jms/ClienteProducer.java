@@ -1,4 +1,4 @@
-package com.nsrp.challenge.service;
+package com.nsrp.challenge.service.jms;
 
 import com.nsrp.challenge.model.ClienteModel;
 import org.springframework.beans.factory.annotation.Autowired;

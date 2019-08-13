@@ -3,6 +3,7 @@ package com.nsrp.challenge.service;
 import com.nsrp.challenge.domain.Cliente;
 import com.nsrp.challenge.model.ClienteModel;
 import com.nsrp.challenge.repository.ClienteRepository;
+import com.nsrp.challenge.service.jms.ClienteProducer;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
@@ -11,6 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -67,7 +69,23 @@ public class ClienteServiceTest {
         Mockito.when(repository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(Mockito.mock(Cliente.class)));
 
         expectedException.expect(EntityExistsException.class);
-        expectedException.expectMessage("Já existe um cadastro para o cliente com email clienteModel@teste.com.br");
+        expectedException.expectMessage("Já existe um cadastro para o cliente com email 'clienteModel@teste.com.br'");
         service.save(clienteModel);
+    }
+
+    @Test
+    public void updateClienteExistente() {
+        //to be done
+    }
+
+    @Test
+    public void updateClienteExistenteRetornaErro() {
+        ClienteModel clienteModel = Mockito.mock(ClienteModel.class);
+        Mockito.when(clienteModel.getEmail()).thenReturn("clienteModel@teste.com.br");
+        Mockito.when(repository.findByEmail(Mockito.anyString())).thenReturn(Optional.empty());
+
+        expectedException.expect(EntityNotFoundException.class);
+        expectedException.expectMessage("Cliente com email 'clienteModel@teste.com.br' não encontrado");
+        service.update(clienteModel);
     }
 }

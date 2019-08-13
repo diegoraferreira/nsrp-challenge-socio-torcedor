@@ -34,7 +34,7 @@ public class AssociacaoClienteCampanhaServiceTest {
         List<CampanhaModel> campanhas = Arrays.asList(campanhaModel);
         Mockito.when(campanhaService.findCampanhasByTimeDoCoracao(clienteModel.getTimeDoCoracao())).thenReturn(campanhas);
 
-        service.associarClienteCampanha(clienteModel);
+        service.associarCadastroClienteCampanha(clienteModel);
 
         Mockito.verify(clienteService, Mockito.times(1)).atualizarCampanhasTimeDoCoracao(clienteModel);
         Assert.assertFalse(clienteModel.getCampanhas().isEmpty());

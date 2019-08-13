@@ -71,6 +71,7 @@ public class Cliente {
 
     @ElementCollection
     @CollectionTable(name = "CLIENTE_CAMPANHA", joinColumns = @JoinColumn(name = "ID_CLIENTE", nullable = false))
+    @Column(name = "CAMPANHA_ID")
     public List<Long> getCampanhas() {
         return campanhas;
     }
