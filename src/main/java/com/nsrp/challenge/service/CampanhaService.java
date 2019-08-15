@@ -27,7 +27,7 @@ public class CampanhaService {
     private String campanhaUrl;
 
     public List<CampanhaModel> findCampanhasByTimeDoCoracao(String timeDoCoracao) {
-        Map<String, String> uriParams = new HashMap<String, String>();
+        Map<String, String> uriParams = new HashMap<>();
         uriParams.put("timeDoCoracao", timeDoCoracao);
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(baseUrl.concat(campanhaUrl));
         final ResponseEntity<List<CampanhaModel>> response = restTemplate.exchange(

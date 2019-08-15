@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @Api(tags = "API para cadastro de cliente", value = "Disponibiliza acesso para cadastro do cliente.")
@@ -48,7 +50,7 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.OK).body(clienteSalvo);
     }
 
-    @ApiOperation(value = "Busca de cliente")
+    @ApiOperation(value = "Busca de cliente por id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Cliente encontrado com sucesso"),
             @ApiResponse(code = 404, message = "Cliente não encontrado", response = ApiError.class),
@@ -57,6 +59,17 @@ public class ClienteController {
     @GetMapping(value = "/list/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ClienteModel> findByClienteId(@PathVariable("id") Long id) {
         ClienteModel clientModel = this.clienteService.findByClienteId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(clientModel);
+    }
+
+    @ApiOperation(value = "Lista todos os clientes disponiveis")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Cliente encontrado com sucesso"),
+            @ApiResponse(code = 500, message = "Erro interno do servidor ao buscar os clientes", response = ApiError.class),
+    })
+    @GetMapping(value = "/list", produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<ClienteModel>> findAll() {
+        List<ClienteModel> clientModel = this.clienteService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(clientModel);
     }
 }

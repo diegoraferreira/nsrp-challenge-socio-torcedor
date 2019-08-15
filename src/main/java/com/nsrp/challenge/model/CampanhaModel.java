@@ -1,6 +1,5 @@
 package com.nsrp.challenge.model;
 
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

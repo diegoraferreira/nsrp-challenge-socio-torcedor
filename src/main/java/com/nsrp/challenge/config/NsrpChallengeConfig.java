@@ -13,8 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.jms.ConnectionFactory;
 
-@Configuration
 @EnableJms
+@Configuration
 public class NsrpChallengeConfig {
 
     @Bean

@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -75,7 +77,7 @@ public class ClienteService {
         Optional<Cliente> optionalClienteModel = this.repository.findById(id);
         if (!optionalClienteModel.isPresent()) {
             String message = "Cliente com id %s não encontrado";
-            throw new EntityNotFoundException(String.format(message));
+            throw new EntityNotFoundException(String.format(message, id));
         }
 
         Cliente cliente = optionalClienteModel.get();
@@ -89,6 +91,26 @@ public class ClienteService {
         clienteModel.setCampanhas(cliente.getCampanhas());
 
         return clienteModel;
+    }
+
+    @Transactional(readOnly = true)
+    public List<ClienteModel> findAll() {
+        List<Cliente> clientes = this.repository.findAll();
+        List<ClienteModel> clientesModel = new ArrayList<>();
+
+        for (Cliente cliente : clientes) {
+            ClienteModel clienteModel = new ClienteModel();
+            clienteModel.setId(cliente.getId());
+            clienteModel.setEmail(cliente.getEmail());
+            clienteModel.setNomeCompleto(cliente.getNomeCompleto());
+            clienteModel.setDataNascimento(cliente.getDataNascimento());
+            clienteModel.setTimeDoCoracaoId(cliente.getTimeDoCoracaoId());
+            clienteModel.setTimeDoCoracao(timeService.findById(cliente.getTimeDoCoracaoId()).getNome());
+            clienteModel.setCampanhas(cliente.getCampanhas());
+            clientesModel.add(clienteModel);
+        }
+
+        return clientesModel;
     }
 
     public void atualizarCampanhasTimeDoCoracao(ClienteModel clienteModel) {
@@ -114,22 +136,5 @@ public class ClienteService {
         Cliente cliente = clienteOptional.get();
         cliente.setTimeDoCoracaoId(timeService.findByNome(clienteModel.getTimeDoCoracao()).getId());
         this.repository.save(cliente);
-    }
-
-    public Optional<ClienteModel> findByEmail(String email) {
-        Optional<Cliente> clienteOptional = this.repository.findByEmail(email);
-        if (clienteOptional.isPresent()) {
-            Cliente cliente = clienteOptional.get();
-            ClienteModel clienteModel = new ClienteModel();
-            clienteModel.setId(cliente.getId());
-            clienteModel.setNomeCompleto(cliente.getNomeCompleto());
-            clienteModel.setEmail(cliente.getEmail());
-            clienteModel.setDataNascimento(cliente.getDataNascimento());
-            clienteModel.setTimeDoCoracaoId(cliente.getTimeDoCoracaoId());
-            clienteModel.setCampanhas(cliente.getCampanhas());
-            return Optional.of(clienteModel);
-        } else {
-            return Optional.empty();
-        }
     }
 }
