@@ -11,12 +11,12 @@ O cliente poderá ter uma ou "N" campanhas, as campanhas tem como base o time do
 Para o cadastro de novos clientes, serão associadas todas as campanhas vigentes para o time do coração do cliente,
 para atualização de clientes existentes, serão vinculadas todas as campanhas vigentes que o cliente ainda não possui.
 
-A associação entre o cliente e a campanha do time do coração ocorre de forma assincrona, ou seja, ela ocorre depois do 
+A associação entre o cliente e a campanha do time do coração ocorre de forma assíncrona, ou seja, ela ocorre depois do 
 cadastro do cliente. Desta forma, a aplicação poderá distribuir o processo e o cadastro não será impedido caso o serviço de 
 campanhas esteja indisponível no momento.
 
 As API's de consulta de cliente, dependem do serviço de campanha para retornar a informação "quente" sobre o cadastro do cliente,
-ou seja, a informação atualizada. O cadastro do cliente possui apenas o identificador do cliente, foi optado por não armazenar
+ou seja, a informação atualizada. O cadastro do cliente possui apenas o identificador do time, foi optado por não armazenar
 a informação completa para evitar problemas de sincronia do dado neste modelo de arquitetura.
 
 #### Técnologias utilizadas
