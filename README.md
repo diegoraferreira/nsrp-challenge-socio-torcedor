@@ -11,6 +11,8 @@ O cliente poderá ter uma ou "N" campanhas, as campanhas tem como base o time do
 Para o cadastro de novos clientes, serão associadas todas as campanhas vigentes para o time do coração do cliente,
 para atualização de clientes existentes, serão vinculadas todas as campanhas vigentes que o cliente ainda não possui.
 
+O cliente poderá ter apenas um cadastro ativo, a chave do cadastro será sempre o e-mail do cliente.
+
 A associação entre o cliente e a campanha do time do coração ocorre de forma assíncrona, ou seja, ela ocorre depois do 
 cadastro do cliente. Desta forma, a aplicação poderá distribuir o processo e o cadastro não será impedido caso o serviço de 
 campanhas esteja indisponível no momento.
